@@ -1,4 +1,4 @@
-import { Result } from '@src/monads/Result';
+import { Result } from './Result';
 
 describe('Unit Test for Result', () => {
   test('getOrNull for Result', () => {

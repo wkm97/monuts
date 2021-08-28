@@ -6,6 +6,8 @@
   "scripts": {
     "start:dev": "nodemon",
     "start:prod": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/src/index.js",
+    "prepare": "npm run build",
+    "prepublishOnly" : "npm test",
     "build": "tsc -p tsconfig.prod.json",
     "test": "jest",
     "test:watch": "jest --watch",

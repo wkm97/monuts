@@ -12,10 +12,10 @@
     Success is a result => extends
     Failure is a result => extends
   
-  method:
-    onSuccess
-    onFailure
-    get         // unwrap
+  missing from kotlin:
+    getOrDefault
+    getOrElse
+    getOrThrow
 
 */
 export interface IResult<T, E> {

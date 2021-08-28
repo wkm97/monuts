@@ -52,6 +52,22 @@ function fold<R>(onSuccess: (value: T) => R, onFailure: (err: E) => R): R;
 
 Returns the result of **onSuccess** for the encapsulated value if this instance represents **success** or the result of **onFailure** function for the encapsulated **Throwable** exception if it is **failure**.
 
+### onSuccess
+
+```typescript
+function onSuccess(action: (value: T) => void): Result<T, E>;
+```
+
+Performs the given **action** on the encapsulated value if this instance represents **success**. Returns the original `Result` unchanged.
+
+### onFailure
+
+```typescript
+function onFailure(action: (err: E) => void): Result<T, E>;
+```
+
+Performs the given **action** on the encapsulated **Throwable** exception if this instance represents **failure**. Returns the original `Result` unchanged.
+
 ---
 
 ## Reference

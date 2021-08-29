@@ -1,7 +1,7 @@
-import { Result } from './Result';
+import { Result } from './Result_v3';
 
 describe('Unit Test for Result', () => {
-  test('getOrNull for Result', () => {
+  test('exceptionOrNull for Result', () => {
     const ok = Result.success(123);
     const err = Result.failure(new Error('oh no'));
 
@@ -25,7 +25,7 @@ describe('Unit Test for Result', () => {
 
   test('map for Result', () => {
     const ok = Result.success(123);
-    const err = Result.failure<number, Error>(new Error('oh no'));
+    const err: Result<number, Error> = Result.failure(new Error('oh no'));
 
     expect(ok.map(value => value + 2).getOrNull()).toEqual(125);
     expect(err.map(value => value + 2).exceptionOrNull()).toEqual(new Error('oh no'));
@@ -33,7 +33,7 @@ describe('Unit Test for Result', () => {
 
   test('fold for Result', () => {
     const ok = Result.success(123);
-    const err = Result.failure<number, Error>(new Error('oh no'));
+    const err: Result<number, Error> = Result.failure(new Error('oh no'));
 
     let result = ok.fold(
       success => success + 2,
@@ -49,8 +49,8 @@ describe('Unit Test for Result', () => {
   });
 
   test('onSuccess for Result', () => {
-    const ok = Result.success(123);
-    const err = Result.failure<number, Error>(new Error('oh no'));
+    const ok: Result<number, Error> = Result.success(123);
+    const err: Result<number, Error> = Result.failure(new Error('oh no'));
 
     let result = ok.onSuccess(value => {
       const newValue = value + 2;

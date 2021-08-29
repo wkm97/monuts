@@ -1,4 +1,4 @@
-export abstract class Result<T, E> {
+export abstract class Result<T = true, E = Error> {
   readonly isSuccess: boolean;
   readonly isFailure: boolean;
   protected value: T = null;
@@ -7,7 +7,7 @@ export abstract class Result<T, E> {
   public abstract exceptionOrNull(): E;
   public abstract getOrNull(): T;
   public abstract map<U>(transform: (value: T) => U): Result<U, E>;
-  public abstract fold<R>(onSuccess: (value: T) => R, onFailure: (err: E) => R): R;
+  public abstract fold<R>(fn: { onSuccess: (value: T) => R; onFailure: (err: E) => R }): R;
   public abstract onSuccess(action: (value: T) => void): Result<T, E>;
   public abstract onFailure(action: (err: E) => void): Result<T, E>;
 
@@ -41,8 +41,8 @@ export class Success<T> extends Result<T, null> {
     return new Success(transform(this.value));
   }
 
-  public fold<R>(onSuccess: (value: T) => R, onFailure: (err: never) => R) {
-    return onSuccess(this.value);
+  public fold<R>(fn: { onSuccess: (value: T) => R; onFailure: (err: never) => R }) {
+    return fn.onSuccess(this.value);
   }
 
   public onSuccess(action: (value: T) => void): Success<T> {
@@ -76,8 +76,8 @@ export class Failure<E> extends Result<null, E> {
     return this;
   }
 
-  public fold<R>(onSuccess: (value: never) => R, onFailure: (err: E) => R) {
-    return onFailure(this.err);
+  public fold<R>(fn: { onSuccess: (value: never) => R; onFailure: (err: E) => R }) {
+    return fn.onFailure(this.err);
   }
 
   public onSuccess(action: (value: never) => void): Failure<E> {

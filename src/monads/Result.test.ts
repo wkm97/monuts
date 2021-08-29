@@ -34,17 +34,16 @@ describe('Unit Test for Result', () => {
   test('fold for Result', () => {
     const ok = Result.success(123);
     const err: Result<number, Error> = Result.failure(new Error('oh no'));
-
-    let result = ok.fold(
-      success => success + 2,
-      () => 10
-    );
+    let result = ok.fold({
+      onSuccess: item => item + 2,
+      onFailure: () => 10,
+    });
     expect(result).toEqual(125);
 
-    result = err.fold(
-      success => success + 2,
-      () => 10
-    );
+    result = err.fold({
+      onSuccess: item => item + 2,
+      onFailure: () => 10,
+    });
     expect(result).toEqual(10);
   });
 
@@ -62,5 +61,12 @@ describe('Unit Test for Result', () => {
       expect(error).toEqual(new Error('oh no'));
     });
     expect(result.exceptionOrNull()).toEqual(new Error('oh no'));
+  });
+
+  test('compare for Result', () => {
+    const n1 = Result.success(1);
+    const n2 = Result.success(1);
+
+    console.log(n1.getOrNull() === n2.getOrNull());
   });
 });
